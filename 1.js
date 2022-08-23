@@ -29,7 +29,11 @@ async function draw(data) {
       },
     },
   };
+
+  // 关联容器和vega的代码
+
   vegaEmbed("#pra_chart1", pra_chart1);
+
   let pra_chart2 = {
     $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     title: { text: "Pre-Major & Target ", fontSize: 26 },
@@ -40,10 +44,13 @@ async function draw(data) {
     encoding: {
       x: { aggregate: "count", type: "quantitative" },
       y: { field: "student_pre_major" },
-      color: { field: "learning_trarget" ,  scale: {
-        domain: ["Academic", "Industrial", "Other"],
-        range: ["#537DAB", "#EC7A79", "#F89D54"],
-      },},
+      color: {
+        field: "learning_trarget",
+        scale: {
+          domain: ["Academic", "Industrial", "Other"],
+          range: ["#537DAB", "#EC7A79", "#F89D54"],
+        },
+      },
     },
   };
   vegaEmbed("#pra_chart2", pra_chart2);
@@ -51,6 +58,7 @@ async function draw(data) {
   new Sankey("sankey", data);
   const draw_table = () => {
     let tr = d3.select("tbody").selectAll("tr").data(data).join("tr");
+    tr.selectAll("*").remove();
     tr.append("td")
       .append("input")
       .attr("class", "uk-checkbox")
@@ -247,8 +255,12 @@ document
   .addEventListener("click", function (e) {
     window.location.href = "index.html";
   });
+
 async function init() {
+  // D3获取数据方法
+
   let data = await d3.csv("./LAD_simulation_dataset.csv");
+
   data.forEach((d) => {
     d.major = d.student_pre_major;
     d.group = d.student_group_code;

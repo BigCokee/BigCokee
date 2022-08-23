@@ -19,7 +19,7 @@ async function draw(data) {
     },
     layer: [
       {
-        mark: { type: "bar", color: "#7093b9", opacity: 0.8, width: 30 },
+        mark: { type: "bar", color: "#7093b9", opacity: 0.8, width: 30,legend:{position:'top'} },
         encoding: {
           y: { aggregate: "mean", field: "participation" },
         },
@@ -43,6 +43,7 @@ async function draw(data) {
   vegaEmbed("#participation_bar_chart", participation_bar_chart);
   const draw_table = () => {
     let tr = d3.select("tbody").selectAll("tr").data(data).join("tr");
+    tr.selectAll("*").remove()
     tr.append("td")
       .append("input")
       .attr("class", "uk-checkbox")
