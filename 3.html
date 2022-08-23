@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.16.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.16.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+
+    <script src="https://unpkg.com/d3-array@1"></script>
+    <script src="https://unpkg.com/d3-collection@1"></script>
+    <script src="https://unpkg.com/d3-path@1"></script>
+    <script src="https://unpkg.com/d3-shape@1"></script>
+    <script src="https://unpkg.com/d3-sankey@0"></script>
+
+
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .viz_title {
+            width: 1880px;
+            height: 107px;
+            background: #FFFFFF;
+            box-shadow: 0px 2px 6px 0px rgba(155, 155, 155, 0.5000);
+            display: grid;
+            grid-template-columns: 200px 200px 200px 100px auto;
+            grid-column-gap: 50px;
+            padding-left: 0px;
+            margin-left: 30px;
+            align-items: center;
+            justify-items: center;
+        }
+        main{
+            margin-left: 30px;
+        }
+        .dash_up_content {
+            display: grid;
+            grid-template-columns: 721px 1015px;
+            grid-column-gap: 48px;
+            margin-left: 48px;
+            margin-top: 48px;
+            margin-bottom: 48px;
+        }
+
+        .dash_down_content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            margin-left: 48px;
+        }
+
+        #tables {
+            padding: 20px;
+            width: 1015px;
+            height: 420px;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1200);
+            border-radius: 8px;
+            border: 1px solid #D8D8D8;
+            overflow-y: scroll;
+        }
+
+        .chart {
+
+            padding: 20px;
+            width: 562px;
+            height: 409px;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1200);
+            border-radius: 8px;
+            border: 1px solid #D8D8D8;
+        }
+
+        .insights {
+            font-size: 26px;
+            font-family: OpenSans-Semibold, OpenSans;
+            font-weight: 600;
+            color: #000000;
+            line-height: 36px;
+
+
+        }
+
+        #insights {
+            padding: 20px;
+            width: 721px;
+            height: 220px;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1200);
+            border-radius: 8px;
+            border: 1px solid #D8D8D8;
+
+        }
+
+        #filters {
+            padding: 20px;
+            margin-top: 36px;
+            width: 721px;
+            height: 162px;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1200);
+            border-radius: 8px;
+            border: 1px solid #D8D8D8;
+
+        }
+
+        .title-5 {
+            width: 645px;
+            height: 43px;
+            font-size: 32px;
+            font-family: OpenSans;
+            color: #000000;
+            line-height: 43px;
+        }
+
+        .title-1,
+        .title-2 {
+
+            height: 33px;
+            font-size: 24px;
+            font-family: OpenSans;
+            color: #969696;
+            line-height: 33px;
+        }
+
+        .title-3 {
+            height: 43px;
+            font-size: 32px;
+            font-family: OpenSans-Semibold, OpenSans;
+            font-weight: 600;
+            color: #000000;
+            line-height: 43px;
+            border-bottom: #e6e6e6 2px solid;
+        }
+
+        label {
+            display: block;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        body{
+            background-image: url('./images/Current Courses 8.14.png');
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+    <img class="close" style="position:absolute ;top:150px;left: 30px;width: 30px;height: 30px;" src="./images/close.png" alt=""
+    srcset="">
+    <main>
+
+        <div class="viz_title">
+            <span class="title-1">Pre-Course</span>
+            <span class="title-2">In-Course</span>
+            <span class="title-3">Post-Course</span>
+            <span class="title-4"></span>
+            <span class="title-5">Case Studies in Design Informatics 1</span>
+        </div>
+        <section class="dash_up_content">
+            <div>
+                <div id="insights">
+                    <span class="insights">Insights</span>
+                    <hr>
+                    <span>
+                        Tips focuses on the scores of Group 5
+                    </span>
+                    <hr>
+                    <span>Tips focuses on the submission of assignments for Group 3</span>
+
+                </div>
+                <div id="filters">
+
+                    <span class="insights">Filters</span>
+                 
+                    <section style="display: grid;grid-template-columns: 1fr 1fr 1fr;  justify-items: center; ">
+                        <div id="student_group_code"></div>
+                        <div id="week"></div>
+                        <div id="learning_trarget"></div>
+                    </section>
+                </div>
+            </div>
+            <div id="tables">
+                <div class="uk-overflow-auto">
+                    <table class="uk-table uk-table-hover uk-table-middle uk-table-divider">
+                        <thead>
+                            <tr>
+                                <th class="uk-table-shrink"></th>
+                                <th class="uk-table-shrink">Name</th>
+                                <th class="uk-table-shrink">Marks</th>
+                                <th class="uk-table-shrink">Lo1</th>
+                                <th class="uk-table-shrink">Lo2</th>
+                                <th class="uk-table-shrink">Level</th>
+                                <th class="uk-table-shrink">Group</th>
+                                <th class="uk-table-shrink uk-text-nowrap">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section class="dash_down_content">
+            <div class="chart" id="participation_boxplot"></div>
+            <div class="chart" id="participation_bar_chart"></div>
+            <div class="chart" id="Lod"></div>
+        </section>
+    </main>
+
+
+    <script src="3.js" type="module"></script>
+</body>
+
+</html>

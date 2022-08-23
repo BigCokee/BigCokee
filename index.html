@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false" />
+    <title></title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/css/uikit.min.css" />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.2.2/dist/js/uikit-icons.min.js"></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.16.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.16.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+
+    <script src="https://unpkg.com/d3-array@1"></script>
+    <script src="https://unpkg.com/d3-collection@1"></script>
+    <script src="https://unpkg.com/d3-path@1"></script>
+    <script src="https://unpkg.com/d3-shape@1"></script>
+    <script src="https://unpkg.com/d3-sankey@0"></script>
+
+    <style>
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        article {
+            width: 1920px;
+            height: 1580px;
+            display: grid;
+            grid-template-columns: 202px 1718px;
+        }
+
+        #viz {
+            width: 1718px;
+            height: 1080px;
+            background-color: #F8F8F8;
+        }
+
+        .card {
+            background: #FFFFFF;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1200);
+            border-radius: 8px;
+            margin: 10px 46px;
+            padding: 37px;
+        }
+
+        .sideTitle {
+            width: 202px;
+            height: 22px;
+            font-size: 22px;
+            font-family: NotoSansCJK-Regular, NotoSansCJK;
+            font-weight: 400;
+            color: #FFFFFF;
+
+        }
+
+        .sideTitlediv {
+            height: 105px;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: #000000 2px solid;
+
+        }
+
+        .sideCard {
+            padding-left: 20px;
+            height: 72px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 30% 70%;
+            justify-items: left;
+            align-items: center;
+            text-align: left;
+
+
+        }
+
+        .sideCard img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .sideCardTitle {
+            width: 65px;
+            height: 19px;
+            font-size: 14px;
+            font-family: OpenSans;
+            color: #FFFFFF;
+            line-height: 19px;
+        }
+
+        .sideCard:hover {
+            background-color: rgba(248, 248, 248, 0.1);
+
+        }
+
+        .flag,
+        .show {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <article>
+        <main style="background-color: #041D43;">
+            <div class="sideTitlediv">
+                <span class="sideTitle">The University</span>
+            </div>
+
+            <div class="sideCard">
+                <img src="./images/个人.png" alt="">
+                <span class="sideCardTitle">DanPeng</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/云网络.png" alt="">
+                <span class="sideCardTitle">Activitytream</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/记录.png" alt="">
+                <span class="sideCardTitle">Organisations</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/群组多人.png" alt="">
+                <span class="sideCardTitle">DanPeng</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/日历.png" alt="">
+                <span class="sideCardTitle">Calender</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/邮件.png" alt="">
+                <span class="sideCardTitle">Message</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/编辑.png" alt="">
+                <span class="sideCardTitle">Marks</span>
+            </div>
+            <div id="dashboard" class="sideCard">
+                <img src="./images/chart.png" alt="">
+                <span class="sideCardTitle">Dashboard</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/编辑.png" alt="">
+                <span class="sideCardTitle">Tools</span>
+            </div>
+            <div class="sideCard">
+                <img src="./images/退出.png" alt="">
+                <span class="sideCardTitle">Sign Out</span>
+            </div>
+        </main>
+
+
+        <style>
+            .vizTitle {
+                height: 105px;
+                font-size: 32px;
+                font-family: NotoSansCJK-Regular, NotoSansCJK;
+                font-weight: 400;
+                color: #000000;
+                line-height: 105px;
+                padding-left: 38px;
+                background-color: #FFFFFF;
+                border-bottom: #D8D8D8 2px solid;
+
+            }
+
+            .vizSubtitle {
+                height: 79px;
+                background-color: #FFFFFF;
+                display: grid;
+                grid-template-columns: 281px auto 281px;
+                text-align: center;
+                align-items: center;
+                justify-items: center;
+            }
+
+            .vizsubTitlecontent {
+                font-size: 24px;
+                font-family: OpenSans-Bold, OpenSans;
+                font-weight: bold;
+                color: #000000;
+                line-height: 33px;
+
+
+
+            }
+
+
+            .title {
+                font-size: 26px;
+                font-family: OpenSans-Semibold, OpenSans;
+                font-weight: 600;
+                color: #000000;
+                line-height: 36px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+                font-family: OpenSans;
+                color: #7E7E7E;
+                line-height: 24px;
+            }
+
+
+
+            .t1,
+            .t2,
+            .t3,
+            .t4,
+            .t5 {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                font-size: 22px;
+                font-family: OpenSans-Bold, OpenSans;
+                font-weight: bold;
+                color: #000000;
+                line-height: 102px;
+                border-right: 1px solid #D8D8D8;
+
+            }
+
+            .t1 {
+                text-align: left;
+                padding-left: 30px;
+            }
+
+            .enterBtn {
+                width: 139px;
+                height: 44px;
+                background: #435671;
+                border-radius: 10px;
+                opacity: 0.85;
+
+                font-size: 20px;
+                font-family: OpenSans-Bold, OpenSans;
+                font-weight: bold;
+                color: #FFFFFF;
+                line-height: 27px;
+            }
+
+
+
+            .content {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+                justify-items: center;
+                align-items: center;
+                margin: 10px;
+                padding: 10px;
+                height: 104px;
+            }
+
+            .viz_bar,
+            .viz_circle,
+            .viz_8_group {
+                width: 231px;
+                height: 53px;
+            }
+
+            .viz_8_group {
+                margin-top: 20px;
+            }
+
+            i {
+                font-weight: 100;
+                color: #7E7E7E;
+            }
+
+            .t_label {
+                position: absolute;
+                top: -10px;
+                left: 20%;
+            }
+
+            .t1 img {
+                width: 40px;
+                height: 40px;
+            }
+            .hide{
+                margin-right: 20px;
+                width: 20px;
+                height: 10px;
+            }
+        </style>
+        <main id="viz">
+            <section class="vizTitle">
+                <span>Learning Analytics Dashboard</span>
+            </section>
+
+
+            <section class="vizSubtitle">
+                <div><img style="width:15px;margin-right:10px ;" src="./images/返回.png" alt="" srcset="">  OnGoing</div>
+                <div class="vizsubTitlecontent">Current Courses</div>
+                <div>UpComing<img  style="width:15px;margin-left:10px ;" src="./images/前进.png" alt="" srcset="">  </div>
+            </section>
+
+
+            <section class="card">
+                <section style="display: grid;grid-template-columns:90% 10% ;align-items: center;">
+                    <div>
+                        <div class="title">Understanding Data Visualisation</div>
+                        <div class="subtitle"> 2021-2022 SEM1 Wed 11:00 - 12:00</div>
+                    </div>
+                    <div style="display: grid;grid-template-columns:repeat(3,1fr) ;row-gap: 5px;">
+                        <img class="show" src="./images/bx-show.png" alt="">
+                        <img class="flag" src="./images/flag.png" alt="">
+                        <img class="flag" src="./images/导出.png" alt="">
+                    </div>
+
+                </section>
+                <hr />
+                <section class="content">
+
+                    <div class="t1"> <img class="hide" src="./images/hide.png" alt="" srcset="">Pre-Course</div>
+                    <div class="t2">48 Students</div>
+                    <div class="t3">
+                        <div class="viz_bar" id="viz_bar3"></div>
+                        <span class="t_label">6 <i>Countries</i></span>
+                    </div>
+                    <div class="t4">
+                        <div class="viz_circle" id="viz_circle3"></div>
+                        <span class="t_label">
+                            5 <i>Major areas</i>
+                        </span>
+                    </div>
+                    <div class="t5">
+                        <!-- 8 Groups -->
+                        <div class="viz_8_group" id="viz_8_group3"></div>
+                        <span class="t_label">
+                            8 <i>Groups</i>
+
+                        </span>
+                    </div>
+                    <div><button id="goto_1" class="enterBtn">Enter</button></div>
+                </section>
+            </section>
+
+            <section class="card">
+                <section style="display: grid;grid-template-columns:90% 10% ;align-items: center;">
+                    <div>
+                        <div class="title">Case Studies in Design Informatics</div>
+                        <div class="subtitle"> 2021-2022 SEM1 Wed 11:00 - 12:00</div>
+                    </div>
+                    <div style="display: grid;grid-template-columns:repeat(3,1fr) ;row-gap: 5px;">
+                        <img class="show" src="./images/bx-show.png" alt="">
+                        <img class="flag" src="./images/flag.png" alt="">
+                        <img class="flag" src="./images/导出.png" alt="">
+                    </div>
+
+                </section>
+
+
+
+                <hr />
+                <section class="content">
+
+                    <div class="t1">
+                        <img class="hide" src="./images/hide.png" alt="" srcset="">Pre-Course
+                    </div>
+                    <div class="t2">48 <i> Students</i></div>
+                    <div class="t3">
+                        <div class="viz_bar" id="viz_bar"></div>
+                        <span class="t_label">6 <i>Countries</i></span>
+                    </div>
+                    <div class="t4">
+                        <div class="viz_circle" id="viz_circle"></div>
+                        <span class="t_label">
+                            5 <i>Major areas</i>
+                        </span>
+                    </div>
+                    <div class="t5">
+
+                        <div class="viz_8_group" id="viz_8_group"></div>
+                        <span class="t_label">
+                            8 <i>Groups</i>
+
+                        </span>
+                    </div>
+                    <div><button id="goto_1" class="enterBtn">Enter</button></div>
+                </section>
+                <section class="content">
+
+                    <div class="t1">
+                        <img class="hide" src="./images/hide.png" alt="" srcset="">In-Course
+                    </div>
+                    <div class="t2">W3 <i> 2h03min</i></div>
+                    <div class="t3">
+                        <div class="viz_bar">
+                            <img src="./images/1.png" alt="">
+                        </div>
+                        <!-- <span class="t_label">32 <i>Active</i></span> -->
+                    </div>
+                    <div class="t4">
+                        <div class="viz_bar">
+                            <img src="./images/2.png" alt="">
+                        </div>
+                    </div>
+                    <div class="t5">
+
+                        <div class="viz_bar">
+                            <img src="./images/3.png" alt="">
+                        </div>
+                    </div>
+                    <div><button id="goto_2" class="enterBtn">Enter</button></div>
+                </section>
+                <section class="content">
+
+                    <div class="t1">
+                        <img class="hide" src="./images/hide.png" alt="" srcset="">Post-Course
+                    </div>
+                    <div class="t2">1 <i>Assignment</i> </div>
+                    <div class="t3">
+                        <div class="viz_bar">
+                            <img src="./images/4.png" alt="">
+                        </div>
+                    </div>
+                    <div class="t4">
+                        <div class="viz_bar">
+                            <img src="./images/5.png" alt="">
+                        </div>
+                    </div>
+                    <div class="t5">
+
+                        <div class="viz_bar">
+                            <img src="./images/6.png" alt="">
+                        </div>
+                    </div>
+                    <div><button id="goto_3" class="enterBtn">Enter</button></div>
+                </section>
+
+            </section>
+
+
+            <section class="card">
+                <section style="display: grid;grid-template-columns:90% 10% ;align-items: center;">
+                    <div>
+                        <div class="title">Understanding Data Visualisation</div>
+                        <div class="subtitle"> 2021-2022 SEM1 Wed 11:00 - 12:00</div>
+                    </div>
+                    <div style="display: grid;grid-template-columns:repeat(3,1fr) ;row-gap: 5px;">
+                        <img class="show" src="./images/bx-show.png" alt="">
+                        <img class="flag" src="./images/flag.png" alt="">
+                        <img class="flag" src="./images/导出.png" alt="">
+                    </div>
+
+                </section>
+                <hr />
+                <section class="content">
+
+                    <div class="t1">
+                        <img class="hide" src="./images/hide.png" alt="" srcset="">
+                        Pre-Course
+                    </div>
+                    <div class="t2">48 Students</div>
+                    <div class="t3">
+                        <div class="viz_bar" id="viz_bar2"></div>
+                        <span class="t_label">6 <i>Countries</i></span>
+                    </div>
+                    <div class="t4">
+                        <div class="viz_circle" id="viz_circle2"></div>
+                        <span class="t_label">
+                            5 <i>Major areas</i>
+                        </span>
+                    </div>
+                    <div class="t5">
+                        <!-- 8 Groups -->
+                        <div class="viz_8_group" id="viz_8_group2"></div>
+                        <span class="t_label">
+                            8 <i>Groups</i>
+
+                        </span>
+                    </div>
+                    <div><button id="goto_1" class="enterBtn">Enter</button></div>
+                </section>
+            </section>
+
+
+        </main>
+    </article>
+
+    <script src="index.js" type="module"></script>
+</body>
+
+</html>
