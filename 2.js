@@ -7,7 +7,7 @@ async function draw(data) {
     );
     d.duration = parseInt(d.duration / 10) * 10;
 
-    d.participation = Math.random();
+    d.participation = Math.random()/2+0.5;
     d.active_time = new Date(d.student_active_start_time);
   });
 
@@ -58,8 +58,8 @@ async function draw(data) {
     height: "container",
     mark: { type: "line", interpolate: "monotone" },
     encoding: {
-      y: { aggregate: "count", type: "quantitative" },
-      x: { field: "duration", type: "nominal" },
+      y: { aggregate: "mean", type: "quantitative",field:"participation" },
+      x: { field: "active_time", type: "temporal" },
     },
   };
   vegaEmbed("#course_participation", course_participation);

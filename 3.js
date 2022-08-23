@@ -19,7 +19,7 @@ async function draw(data) {
     },
     layer: [
       {
-        mark: { type: "bar", color: "#7093b9", opacity: 0.8, width: 30 },
+        mark: { type: "bar", color: "#7093b9", opacity: 0.8, width: 30,legend:{position:'top'} },
         encoding: {
           y: { aggregate: "mean", field: "participation" },
         },

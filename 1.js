@@ -29,7 +29,14 @@ async function draw(data) {
       },
     },
   };
+
+
+  // 关联容器和vega的代码
+
   vegaEmbed("#pra_chart1", pra_chart1);
+
+
+
   let pra_chart2 = {
     $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     title: { text: "Pre-Major & Target ", fontSize: 26 },
@@ -247,8 +254,17 @@ document
   .addEventListener("click", function (e) {
     window.location.href = "index.html";
   });
+
+
 async function init() {
+
+
+  // D3获取数据方法
+  
   let data = await d3.csv("./LAD_simulation_dataset.csv");
+
+
+
   data.forEach((d) => {
     d.major = d.student_pre_major;
     d.group = d.student_group_code;
