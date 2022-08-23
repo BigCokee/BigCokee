@@ -84,6 +84,8 @@ async function draw(data) {
   vegaEmbed("#participation_boxplot", participation_boxplot);
   const draw_table = () => {
     let tr = d3.select("tbody").selectAll("tr").data(data).join("tr");
+
+    tr.selectAll("*").remove()
     tr.append("td")
       .append("input")
       .attr("class", "uk-checkbox")
